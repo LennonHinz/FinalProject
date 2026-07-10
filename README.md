@@ -4,7 +4,7 @@
 
 ## Theme
 
-(TBA)
+The theme for my project is Stardew Vally. You must explore the world to complete the final bundle required to save the town.
 
 ## Goal
 

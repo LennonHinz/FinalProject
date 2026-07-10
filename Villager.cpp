@@ -8,8 +8,9 @@
 using namespace std;
 
 
-Villager::Villager(string n, string l, bool u, vector<string> t) : npc(n, l, u) {
+Villager::Villager(string n, string l, bool u, vector<string> t, vector<int> p) : npc(n, l, u) {
     trades = t;
+    prices = p;
     friendship = 0;
 }
 
@@ -27,6 +28,10 @@ void Villager::changeFriendship(int f) {
 
 vector<string> Villager::getTrades() {
     return trades;
+}
+
+vector<int> Villager::getPrices() {
+    return prices;
 }
 
 int Villager::getFriendship() {

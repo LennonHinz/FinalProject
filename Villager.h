@@ -9,16 +9,18 @@
 
 using namespace std;
 
-class Villager : public npc {
+class Villager : public npc { //inherits npc
     private:
     vector<string> trades;
+    vector<int> prices;
     int friendship;
 
     public:
-    Villager(string n, string l, bool u, vector<string> t);
+    Villager(string n, string l, bool u, vector<string> t, vector<int> p);
     void addTrade(string t);
     void changeFriendship(int f);
     vector<string> getTrades();
+    vector<int> getPrices();
     int getFriendship();
 
 };
