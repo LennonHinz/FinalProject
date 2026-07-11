@@ -11,7 +11,7 @@ Player::Player(string n) {
     name = n;
     location = "Farm";
     gold = 100;
-    averageSleep[0] = 8;
+    averageSleep = 8;
     for (int i = 0; i < 10; i++) {
         inventory[i] = "";
     }
@@ -23,8 +23,8 @@ void Player::setLocation(string l) {
 }
 
 void Player::setAverageSleep(double lN, int day) {
-    averageSleep[0] = ((averageSleep[0] * (day - 1)) + (lN + 6)) / day;
-    cout << averageSleep[0];
+    averageSleep = ((averageSleep * (day - 1)) + (lN + 6)) / day;
+    cout << averageSleep;
 }
 
 void Player::changeGold(int g) {
@@ -48,7 +48,7 @@ string Player::getLocation() {
 }
 
 double Player::getAverageSleep() {
-    return averageSleep[0];
+    return averageSleep;
 }
 
 int Player::getGold() {

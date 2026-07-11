@@ -9,8 +9,7 @@
 
 using namespace std;
 
-int printMenu(Town main, int day, int time);
-void printTrades(Town main, int vIndex);
+void printTrades(vector<Villager> villagers, int vIndex);
 
 int main() {
 
@@ -20,38 +19,30 @@ int main() {
     getline(cin, playerName);
 
     //Create the player
-    Player p(playerName);
+    Player player(playerName);
 
-    Town main(p);
+
     int Day = 1;
 
-
     //Create all the different villagers
+    vector<Villager> villagers;
     Villager Pierre("Pierre", "Town", true, {"Wheat Seeds", "Parsnip Seeds"}, {1, 5}); //Pierre index 0
-    main.addVillager(Pierre);
+    villagers.push_back(Pierre);
     Villager Willy("Willy", "Docks", false, {"Cod", "Catfish"}, {3, 10}); //Willy index 1
-    main.addVillager(Willy);
+    villagers.push_back(Willy);
     Villager Clint("Clint", "Mines", false, {"Stone", "Coal", "Iron"}, {1, 5, 15}); //Clint index 2
-    main.addVillager(Clint);
+    villagers.push_back(Clint);
 
     for (int end = 7; Day <= end; Day++) { // main gameplay loop
         for (int time = 18; time > 0; time--){
-            time = printMenu(main, Day, time);
-        }
-    }
-
-
-    return 0;
-}
-
-int printMenu(Town main, int day, int time) {
-    string location = main.getPlayer().getLocation();
+            //time = printMenu(villagers, player, Day, time);
+            string location = player.getLocation();
 
     cout << "==================================================" << endl;
     cout << "            THE FINAL BUNDLE" << endl;
     cout << "==================================================" << endl << endl;
 
-    cout << "Day: " << day << " / 7        Time left in day: " << time << "       Average sleep: " << main.getPlayer().getAverageSleep() << "        Money: " << main.getPlayer().getGold() << " gold" << endl;
+    cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl;
     cout << "Location: " << location << endl << endl;
 
     // include bundle information here
@@ -74,7 +65,7 @@ int printMenu(Town main, int day, int time) {
 
         switch (decition) {
             case 1:
-            printTrades(main, 0);
+            printTrades(villagers, 0);
             break;
             case 2:
             cout << "You entered Jojamart" << endl;
@@ -99,7 +90,7 @@ int printMenu(Town main, int day, int time) {
 
         switch (decition) {
             case 1:
-            printTrades(main, 1);
+            printTrades(villagers, 1);
             case 2:
             //main.getPlayer(0).setLocation("dectination") // will finish later
             break;
@@ -120,7 +111,7 @@ int printMenu(Town main, int day, int time) {
 
         switch (decition) {
             case 1:
-            printTrades(main, 2);
+            printTrades(villagers, 2);
             case 2:
             //main.getPlayer(0).setLocation("dectination") // will finish later
             break;
@@ -150,8 +141,7 @@ int printMenu(Town main, int day, int time) {
             case 3:
             break; // in progress
             case 4:
-            main.getPlayer().setAverageSleep(time, day);
-            main.getPlayer().changeGold(15);
+            player.setAverageSleep(time, Day);
             time = 0;
             break;
             default:
@@ -178,13 +168,16 @@ int printMenu(Town main, int day, int time) {
     }
 
     cout << endl << endl;
-    return time;
+        }
+    }
 
+
+    return 0;
 }
 
-void printTrades(Town main, int vIndex) {
-    vector<string> trades = main.getVillagers(vIndex).getTrades();
-    vector<int> prices = main.getVillagers(vIndex).getPrices();
+void printTrades(vector<Villager> villagers, int vIndex) {
+    vector<string> trades = villagers[vIndex].getTrades();
+    vector<int> prices = villagers[vIndex].getPrices();
     for (int i = 0; i < static_cast<int>(trades.size()); i++) {
         cout << trades[i] << " : " << prices[i] << endl;
     }
