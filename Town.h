@@ -14,13 +14,13 @@ using namespace std;
 class Town {
     private:
     vector<Villager> villagers;
-    vector<Player> player;
+    Player player;
     
     public:
     void addVillager(Villager v);
-    void addPlayer(Player p);
+    Town (Player p);
     Villager getVillagers(int index);
-    Player getPlayer(int index);
+    Player getPlayer();
 
 };
 

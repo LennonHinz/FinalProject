@@ -14,18 +14,16 @@ void printTrades(Town main, int vIndex);
 
 int main() {
 
-    Town main;
-    string playerName;
-    int Day = 1;
-
     //starting up the game
+    string playerName;
     cout << "Enter you players name: ";
     getline(cin, playerName);
 
-
     //Create the player
     Player p(playerName);
-    main.addPlayer(p);
+
+    Town main(p);
+    int Day = 1;
 
 
     //Create all the different villagers
@@ -47,13 +45,13 @@ int main() {
 }
 
 int printMenu(Town main, int day, int time) {
-    string location = main.getPlayer(0).getLocation();
+    string location = main.getPlayer().getLocation();
 
     cout << "==================================================" << endl;
     cout << "            THE FINAL BUNDLE" << endl;
     cout << "==================================================" << endl << endl;
 
-    cout << "Day: " << day << " / 7        Time left in day: " << time << "       Average sleep: " << main.getPlayer(0).getAverageSleep() << "        Money: " << main.getPlayer(0).getGold() << " gold" << endl;
+    cout << "Day: " << day << " / 7        Time left in day: " << time << "       Average sleep: " << main.getPlayer().getAverageSleep() << "        Money: " << main.getPlayer().getGold() << " gold" << endl;
     cout << "Location: " << location << endl << endl;
 
     // include bundle information here
@@ -72,7 +70,7 @@ int printMenu(Town main, int day, int time) {
         do {
             cout << "Enter you decition: ";
             cin >> decition;
-        } while (decition < 0 && decition > 4);
+        } while (decition <= 0 && decition > 4);
 
         switch (decition) {
             case 1:
@@ -97,7 +95,7 @@ int printMenu(Town main, int day, int time) {
         do {
             cout << "Enter you decition: ";
             cin >> decition;
-        } while (decition < 0 && decition > 3);
+        } while (decition <= 0 && decition > 3);
 
         switch (decition) {
             case 1:
@@ -118,7 +116,7 @@ int printMenu(Town main, int day, int time) {
         do {
             cout << "Enter you decition: ";
             cin >> decition;
-        } while (decition < 0 && decition > 3);
+        } while (decition <= 0 && decition > 3);
 
         switch (decition) {
             case 1:
@@ -141,7 +139,7 @@ int printMenu(Town main, int day, int time) {
             do {
                 cout << "Enter you decition: ";
                 cin >> decition;
-            } while (decition < 0 && decition > 4);
+            } while (decition <= 0 && decition > 4);
 
             switch (decition) {
             case 1:
@@ -152,7 +150,8 @@ int printMenu(Town main, int day, int time) {
             case 3:
             break; // in progress
             case 4:
-            main.getPlayer(0).setAverageSleep(time, day);
+            main.getPlayer().setAverageSleep(time, day);
+            main.getPlayer().changeGold(15);
             time = 0;
             break;
             default:
@@ -163,7 +162,7 @@ int printMenu(Town main, int day, int time) {
             do {
                 cout << "Enter you decition: ";
                 cin >> decition;
-            } while (decition < 0 && decition > 3);
+            } while (decition <= 0 && decition > 3);
 
             switch (decition) {
                 case 1:

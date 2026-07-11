@@ -13,14 +13,12 @@ void Town::addVillager(Villager v) {
     villagers.push_back(v);
 }
 
-void Town::addPlayer(Player p) {
-    player.push_back(p);
-}
+Town::Town(Player p) : player(p) {}
 
 Villager Town::getVillagers(int index) {
     return villagers[index];
 }
 
-Player Town::getPlayer(int index) {
-    return player[index];
+Player Town::getPlayer() {
+    return player;
 }

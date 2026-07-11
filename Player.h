@@ -12,11 +12,12 @@ class Player { // the charactor the player is in control of
     private:
     string name;
     string location;
-    double averageSleep;
+    
     int gold;
     bool sleepDeprived;
 
     public:
+    double averageSleep[1];
     string inventory[10];
     Player(string n);
     void setLocation(string l);
