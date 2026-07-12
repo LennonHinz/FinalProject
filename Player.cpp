@@ -58,3 +58,20 @@ int Player::getGold() {
 bool Player::getSleepDeprived() {
     return sleepDeprived;
 }
+
+void Player::UnlockMines() {
+    minesUnlock = true;
+}
+
+bool Player::getMinesUnlock() {
+    return minesUnlock;
+}
+
+void Player::UnlockDocks() {
+    docksUnlock = true;
+    minesUnlock = true;
+}
+
+bool Player::getDocksUnlock() {
+    return docksUnlock;
+}

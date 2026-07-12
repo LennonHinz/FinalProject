@@ -1,0 +1,8 @@
+                         [Docks]
+                            |
+[Forest]                 [Mines]
+   |                        |
+[Farm] -- [Town] -- [Community Center]
+             |
+         [JojaMart]
+         

@@ -15,6 +15,8 @@ class Player { // the charactor the player is in control of
     double averageSleep;
     int gold;
     bool sleepDeprived;
+    bool minesUnlock = false;
+    bool docksUnlock = false;
 
     public:
     string inventory[10];
@@ -28,6 +30,11 @@ class Player { // the charactor the player is in control of
     double getAverageSleep();
     int getGold();
     bool getSleepDeprived();
+    void UnlockMines();
+    bool getMinesUnlock();
+    void UnlockDocks();
+    bool getDocksUnlock();
+
 
 };
 

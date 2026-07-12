@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <fstream>
 #include "Player.h"
 #include "npc.h"
 #include "Villager.h"
@@ -21,7 +22,6 @@ int main() {
     //Create the player
     Player player(playerName);
 
-
     int Day = 1;
 
     //Create all the different villagers
@@ -38,136 +38,276 @@ int main() {
             //time = printMenu(villagers, player, Day, time);
             string location = player.getLocation();
 
-    cout << "==================================================" << endl;
-    cout << "            THE FINAL BUNDLE" << endl;
-    cout << "==================================================" << endl << endl;
+            cout << "==================================================" << endl;
+            cout << "            THE FINAL BUNDLE" << endl;
+            cout << "==================================================" << endl << endl;
 
-    cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl;
-    cout << "Location: " << location << endl << endl;
+            cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl << endl << endl;
 
-    // include bundle information here
 
-    // include map here
+            // include map here
+            ifstream inFile("Map.txt");
+            string line;
 
-    cout << "Current options: " << endl;
+            if (inFile.is_open()) {
+                while (getline(inFile, line)) {
+                    cout << line << endl;
+                }
 
-    int decition;
-
-    if (location == "Town") {
-        cout << "1) Trade with Pierre" << endl;
-        cout << "2) Go to Jojamart" << endl;
-        cout << "3) Travel to _____" << endl;
-        cout << "4) Pass time" << endl;
-        do {
-            cout << "Enter you decition: ";
-            cin >> decition;
-        } while (decition <= 0 && decition > 4);
-
-        switch (decition) {
-            case 1:
-            printTrades(villagers, 0);
-            break;
-            case 2:
-            cout << "You entered Jojamart" << endl;
-            break;
-            case 3:
-            //main.getPlayer(0).setLocation("dectination") // will finish later
-            break;
-            case 4:
-            break; // starts next hour
-            default:
-            break;
-        }
-
-    }else if (location == "Docks") {
-        cout << "1) Trade with Willy" << endl;
-        cout << "2) Travel to _____" << endl;
-        cout << "3) Pass time" << endl;
-        do {
-            cout << "Enter you decition: ";
-            cin >> decition;
-        } while (decition <= 0 && decition > 3);
-
-        switch (decition) {
-            case 1:
-            printTrades(villagers, 1);
-            case 2:
-            //main.getPlayer(0).setLocation("dectination") // will finish later
-            break;
-            case 3:
-            break; // starts next hour
-            default:
-            break;
-        }
-
-    }else if (location == "Mines") {
-        cout << "1) Trade with Clint" << endl;
-        cout << "2) Travel to _____" << endl;
-        cout << "3) Pass time" << endl;
-        do {
-            cout << "Enter you decition: ";
-            cin >> decition;
-        } while (decition <= 0 && decition > 3);
-
-        switch (decition) {
-            case 1:
-            printTrades(villagers, 2);
-            case 2:
-            //main.getPlayer(0).setLocation("dectination") // will finish later
-            break;
-            case 3:
-            break; // starts next hour
-            default:
-            break;
-        }
-
-    }else if (location == "Farm") {
-        cout << "1) Travel to _____" << endl;
-        cout << "2) Pass time" << endl;
-        cout << "3) Plant crop" << endl;
-        if (time <= 4) {
-            cout << "4) Go to sleep" << endl;
-            do {
-                cout << "Enter you decition: ";
-                cin >> decition;
-            } while (decition <= 0 && decition > 4);
-
-            switch (decition) {
-            case 1:
-            //main.getPlayer(0).setLocation("dectination") // will finish later
-            break;
-            case 2:
-            break; // starts next hour
-            case 3:
-            break; // in progress
-            case 4:
-            player.setAverageSleep(time, Day);
-            time = 0;
-            break;
-            default:
-            break;
+                inFile.close();
+            }else{
+                cout << "Could not print map" << endl;
             }
 
-        }else{
-            do {
-                cout << "Enter you decition: ";
-                cin >> decition;
-            } while (decition <= 0 && decition > 3);
+            cout << "Current location: " << location << endl << endl;
 
-            switch (decition) {
-                case 1:
-                //main.getPlayer(0).setLocation("dectination") // will finish later
-                case 2:
-                break; // starts next hour
-                case 3:
-                break; // in progress
-                default:
-                break;
+            // include bundle information here
+
+            cout << endl << "Current options: " << endl;
+
+            int decition;
+
+            if (location == "Town") {
+                cout << "1) Trade with Pierre" << endl;
+                cout << "2) Travel to Jojamart" << endl;
+                cout << "3) Travel to the Community Center" << endl;
+                cout << "4) Travel to your Farm" << endl;
+                cout << "5) Pass time" << endl;
+                do {
+                    cout << "Enter you decition: ";
+                    cin >> decition;
+                } while (decition <= 0 && decition > 4);
+
+                switch (decition) {
+                    case 1:
+                    printTrades(villagers, 0);
+                    break;
+                    break;
+                    case 2:
+                    player.setLocation("JojaMart");
+                    break;
+                    case 3:
+                    player.setLocation("Community Center");
+                    break;
+                    case 4:
+                    player.setLocation("Farm");
+                    break;
+                    case 5:
+                    break; // starts next hour
+                    default:
+                    break;
+                }
+
+            }else if (location == "Docks") {
+                cout << "1) Trade with Willy" << endl;
+                cout << "2) Travel to the Mines" << endl;
+                cout << "3) Pass time" << endl;
+                do {
+                    cout << "Enter you decition: ";
+                    cin >> decition;
+                } while (decition <= 0 && decition > 3);
+
+                switch (decition) {
+                    case 1:
+                    printTrades(villagers, 1);
+                    break;
+                    case 2:
+                    player.setLocation("Mines");
+                    break;
+                    case 3:
+                    break; // starts next hour
+                    default:
+                    break;
+                }
+
+            }else if (location == "Mines") {
+                cout << "1) Trade with Clint" << endl;
+                cout << "2) Travel to Community Center" << endl;
+                if (player.getDocksUnlock()) {
+                    cout << "3) Travel to Docks" << endl;
+                    cout << "4) Pass time" << endl;
+                    do {
+                        cout << "Enter you decition: ";
+                        cin >> decition;
+                    } while (decition <= 0 && decition > 3);
+
+                    switch (decition) {
+                        case 1:
+                        printTrades(villagers, 2);
+                        break;
+                        case 2:
+                        player.setLocation("Community Center");
+                        break;
+                        case 3:
+                        player.setLocation("Docks");
+                        break;
+                        case 4:
+                        break; // starts next hour
+                        default:
+                        break;
+                    }
+                }else{
+                    cout << "3) Pass time" << endl;
+                    do {
+                        cout << "Enter you decition: ";
+                        cin >> decition;
+                    } while (decition <= 0 && decition > 3);
+
+                    switch (decition) {
+                        case 1:
+                        printTrades(villagers, 2);
+                        break;
+                        case 2:
+                        player.setLocation("Community Center");
+                        break;
+                        case 3:
+                        break; // starts next hour
+                        default:
+                        break;
+                    }
+                }
+            }else if (location == "Farm") {
+                cout << "1) Travel to Town" << endl;
+                cout << "2) Travel to Forest" << endl;
+                cout << "3) Pass time" << endl;
+                cout << "4) Plant crop" << endl;
+                if (time <= 4) {
+                    cout << "5) Go to sleep" << endl;
+                    do {
+                        cout << "Enter you decition: ";
+                        cin >> decition;
+                    } while (decition <= 0 && decition > 4);
+
+                    switch (decition) {
+                    case 1:
+                    player.setLocation("Town");
+                    break;
+                    case 2:
+                    player.setLocation("Forest");
+                    break;
+                    case 3:
+                    break; // starts next hour
+                    case 4:
+                    break; // in progress
+                    case 5:
+                    player.setAverageSleep(time, Day);
+                    time = 0;
+                    break;
+                    default:
+                    break;
+                    }
+
+                }else{
+                    do {
+                        cout << "Enter you decition: ";
+                        cin >> decition;
+                    } while (decition <= 0 && decition > 3);
+
+                    switch (decition) {
+                        case 1:
+                        player.setLocation("Town");
+                        break;
+                        case 2:
+                        player.setLocation("Forest");
+                        break;
+                        case 3:
+                        break; // starts next hour
+                        case 4:
+                        break; // in progress
+                        default:
+                        break;
+                    }
+                }
+            }else if (location == "Forest") {
+                cout << "1) Chop wood" << endl;
+                cout << "2) Travel to your Farm" << endl;
+                cout << "3) Pass time" << endl;
+                do {
+                    cout << "Enter you decition: ";
+                    cin >> decition;
+                } while (decition <= 0 && decition > 3);
+
+                switch (decition) {
+                    case 1:
+                    // Chop wood code
+                    break;
+                    case 2:
+                    player.setLocation("Farm");
+                    break;
+                    case 3:
+                    break; // starts next hour
+                    default:
+                    break;
+                }
+            }else if (location == "JojaMart") {
+                cout << "1) Trade with Joja" << endl;
+                cout << "2) Travel to your Town" << endl;
+                cout << "3) Pass time" << endl;
+                do {
+                    cout << "Enter you decition: ";
+                    cin >> decition;
+                } while (decition <= 0 && decition > 3);
+
+                switch (decition) {
+                    case 1:
+                    // trading with Joja
+                    break;
+                    case 2:
+                    player.setLocation("Town");
+                    break;
+                    case 3:
+                    break; // starts next hour
+                    default:
+                    break;
+                }
+            }else if (location == "Community Center") {
+                cout << "1) Donate to the community" << endl;
+                cout << "2) Travel to Town" << endl;
+                if (player.getMinesUnlock()) {
+                    cout << "3) Travel to Mines" << endl;
+                    cout << "4) Pass time" << endl;
+                    do {
+                        cout << "Enter you decition: ";
+                        cin >> decition;
+                    } while (decition <= 0 && decition > 3);
+
+                    switch (decition) {
+                        case 1:
+                        // Donating to bundle functionallity
+                        break;
+                        case 2:
+                        player.setLocation("Town");
+                        break;
+                        case 3:
+                        player.setLocation("Mines");
+                        break;
+                        case 4:
+                        break; // starts next hour
+                        default:
+                        break;
+                    }
+                }else{
+                    cout << "3) Pass time" << endl;
+                    do {
+                        cout << "Enter you decition: ";
+                        cin >> decition;
+                    } while (decition <= 0 && decition > 3);
+
+                    switch (decition) {
+                        case 1:
+                        // Donating to bundle functionallity
+                        break;
+                        case 2:
+                        player.setLocation("Town");
+                        break;
+                        case 3:
+                        break; // starts next hour
+                        default:
+                        break;
+                    }
+                }
             }
-        }
-    }
-
-    cout << endl << endl;
+            cout << endl << endl;
         }
     }
 
