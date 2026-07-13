@@ -14,6 +14,7 @@ class Player { // the charactor the player is in control of
     string location;
     double averageSleep;
     int gold;
+    int jojaInfluence;
     bool sleepDeprived;
     bool minesUnlock = false;
     bool docksUnlock = false;
@@ -34,6 +35,7 @@ class Player { // the charactor the player is in control of
     bool getMinesUnlock();
     void UnlockDocks();
     bool getDocksUnlock();
+    void tradeWithJoja();
 
 
 };

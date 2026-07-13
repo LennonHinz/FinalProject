@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "npc.h"
 #include "Villager.h"
-#include "Town.h"
 
 using namespace std;
 
@@ -250,7 +249,7 @@ int main() {
 
                 switch (decition) {
                     case 1:
-                    // trading with Joja
+                    player.tradeWithJoja();
                     break;
                     case 2:
                     player.setLocation("Town");

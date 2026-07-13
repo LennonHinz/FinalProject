@@ -34,21 +34,12 @@ I will use a connected location map and location marker like the one from the ex
 
         [Mines]
             |
-[*Farm] -- [Town Square] -- [Community Center] -- [Beach]
+[Farm] -- [Town Square] -- [Community Center] -- [Beach]
    |            |
 [Forest]     [Pierre's]
 
-* = You are here
+You are here at _____
 
-I will also hide undiscovered locations with a fog effect as shown below:
-
-        [~~~~~]
-            |
-[*Farm] -- [Town Square] -- [Community Center] -- [Beach]
-   |            |
-[~~~~~]     [~~~~~]
-
-* = You are here
 
 ## Win/lose condition
 
