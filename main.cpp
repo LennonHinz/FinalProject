@@ -9,8 +9,6 @@
 
 using namespace std;
 
-void printTrades(vector<Villager> villagers, int vIndex);
-
 int main() {
 
     //starting up the game
@@ -21,19 +19,24 @@ int main() {
     //Create the player
     Player player(playerName);
 
+    //Create Bundle
+    vector<string> bundle = {"Log", "", "", "Catfish", ""};
+
     int Day = 1;
 
     //Create all the different villagers
     vector<Villager> villagers;
-    Villager Pierre("Pierre", "Town", true, {"Wheat Seeds", "Parsnip Seeds"}, {1, 5}); //Pierre index 0
+    Villager Pierre("Pierre", "Town", {"Wheat Seeds", "Parsnip Seeds"}, {5, 10}); //Pierre index 0
     villagers.push_back(Pierre);
-    Villager Willy("Willy", "Docks", false, {"Cod", "Catfish"}, {3, 10}); //Willy index 1
+    Villager Willy("Willy", "Docks", {"Cod", "Catfish"}, {5, 15}); //Willy index 1
     villagers.push_back(Willy);
-    Villager Clint("Clint", "Mines", false, {"Stone", "Coal", "Iron"}, {1, 5, 15}); //Clint index 2
+    Villager Clint("Clint", "Mines", {"Stone", "Coal", "Iron"}, {5, 10, 20}); //Clint index 2
     villagers.push_back(Clint);
+    Villager Marnie("Marnie", "Marnie's Ranch", {"Chicken", "Beef", "Pork"}, {5, 10, 15}); //Marnie index 3
+    villagers.push_back(Marnie);
 
     for (int end = 7; Day <= end; Day++) { // main gameplay loop
-        for (int time = 18; time > 0; time--){
+        for (int time = 18; time >= 0; time--){
             //time = printMenu(villagers, player, Day, time);
             string location = player.getLocation();
 
@@ -44,7 +47,6 @@ int main() {
             cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl << endl << endl;
 
 
-            // include map here
             ifstream inFile("Map.txt");
             string line;
 
@@ -58,9 +60,15 @@ int main() {
                 cout << "Could not print map" << endl;
             }
 
-            cout << "Current location: " << location << endl << endl;
+            cout << "Current location: " << location << endl << endl << endl;
+
+            player.printInventory();
 
             // include bundle information here
+            cout << "Items left in bundle:" << endl;
+            for (int i = 0; i < static_cast<int>(bundle.size()); i++) {
+                cout << bundle[i] << endl;
+            }
 
             cout << endl << "Current options: " << endl;
 
@@ -75,12 +83,11 @@ int main() {
                 do {
                     cout << "Enter you decition: ";
                     cin >> decition;
-                } while (decition <= 0 && decition > 4);
+                } while (decition <= 0 || decition > 5);
 
                 switch (decition) {
                     case 1:
-                    printTrades(villagers, 0);
-                    break;
+                    player.villagerTrading(villagers, 0);
                     break;
                     case 2:
                     player.setLocation("JojaMart");
@@ -104,11 +111,11 @@ int main() {
                 do {
                     cout << "Enter you decition: ";
                     cin >> decition;
-                } while (decition <= 0 && decition > 3);
+                } while (decition <= 0 || decition > 3);
 
                 switch (decition) {
                     case 1:
-                    printTrades(villagers, 1);
+                    player.villagerTrading(villagers, 1);
                     break;
                     case 2:
                     player.setLocation("Mines");
@@ -128,11 +135,11 @@ int main() {
                     do {
                         cout << "Enter you decition: ";
                         cin >> decition;
-                    } while (decition <= 0 && decition > 3);
+                    } while (decition <= 0 || decition > 4);
 
                     switch (decition) {
                         case 1:
-                        printTrades(villagers, 2);
+                        player.villagerTrading(villagers, 2);
                         break;
                         case 2:
                         player.setLocation("Community Center");
@@ -150,11 +157,11 @@ int main() {
                     do {
                         cout << "Enter you decition: ";
                         cin >> decition;
-                    } while (decition <= 0 && decition > 3);
+                    } while (decition <= 0 || decition > 3);
 
                     switch (decition) {
                         case 1:
-                        printTrades(villagers, 2);
+                        //printTrades(villagers, 2);
                         break;
                         case 2:
                         player.setLocation("Community Center");
@@ -175,7 +182,7 @@ int main() {
                     do {
                         cout << "Enter you decition: ";
                         cin >> decition;
-                    } while (decition <= 0 && decition > 4);
+                    } while (decition <= 0 || decition > 5);
 
                     switch (decition) {
                     case 1:
@@ -190,7 +197,7 @@ int main() {
                     break; // in progress
                     case 5:
                     player.setAverageSleep(time, Day);
-                    time = 0;
+                    time = -1;
                     break;
                     default:
                     break;
@@ -200,7 +207,7 @@ int main() {
                     do {
                         cout << "Enter you decition: ";
                         cin >> decition;
-                    } while (decition <= 0 && decition > 3);
+                    } while (decition <= 0 || decition > 4);
 
                     switch (decition) {
                         case 1:
@@ -224,7 +231,7 @@ int main() {
                 do {
                     cout << "Enter you decition: ";
                     cin >> decition;
-                } while (decition <= 0 && decition > 3);
+                } while (decition <= 0 || decition > 3);
 
                 switch (decition) {
                     case 1:
@@ -245,7 +252,7 @@ int main() {
                 do {
                     cout << "Enter you decition: ";
                     cin >> decition;
-                } while (decition <= 0 && decition > 3);
+                } while (decition <= 0 || decition > 3);
 
                 switch (decition) {
                     case 1:
@@ -262,25 +269,30 @@ int main() {
             }else if (location == "Community Center") {
                 cout << "1) Donate to the community" << endl;
                 cout << "2) Travel to Town" << endl;
+                cout << "3) Travel to Marnie's Ranch" << endl;
                 if (player.getMinesUnlock()) {
-                    cout << "3) Travel to Mines" << endl;
-                    cout << "4) Pass time" << endl;
+                    cout << "4) Travel to Mines" << endl;
+                    cout << "5) Pass time" << endl;
                     do {
                         cout << "Enter you decition: ";
                         cin >> decition;
-                    } while (decition <= 0 && decition > 3);
+                    } while (decition <= 0 || decition > 4);
 
                     switch (decition) {
                         case 1:
                         // Donating to bundle functionallity
+                        bundle = player.donateItem(bundle);
                         break;
                         case 2:
                         player.setLocation("Town");
                         break;
                         case 3:
-                        player.setLocation("Mines");
+                        player.setLocation("Marnie's Ranch");
                         break;
                         case 4:
+                        player.setLocation("Mines");
+                        break;
+                        case 5:
                         break; // starts next hour
                         default:
                         break;
@@ -290,34 +302,70 @@ int main() {
                     do {
                         cout << "Enter you decition: ";
                         cin >> decition;
-                    } while (decition <= 0 && decition > 3);
+                    } while (decition <= 0 || decition > 3);
 
                     switch (decition) {
                         case 1:
                         // Donating to bundle functionallity
                         break;
                         case 2:
-                        player.setLocation("Town");
+                        player.setLocation("Marnie's Ranch");
                         break;
                         case 3:
+                        player.setLocation("Town");
+                        break;
+                        case 4:
                         break; // starts next hour
                         default:
                         break;
                     }
                 }
+            }else if (location == "Marnie's Ranch") {
+                cout << "1) Trade with Marnie" << endl;
+                cout << "2) Travel to your Community Center" << endl;
+                cout << "3) Pass time" << endl;
+                do {
+                    cout << "Enter you decition: ";
+                    cin >> decition;
+                } while (decition <= 0 || decition > 3);
+
+                switch (decition) {
+                    case 1:
+                    player.villagerTrading(villagers, 3);
+                    break;
+                    case 2:
+                    player.setLocation("Community Center");
+                    break;
+                    case 3:
+                    break; // starts next hour
+                    default:
+                    break;
+                }
             }
             cout << endl << endl;
+
+            if (0 == static_cast<int>(bundle.size())) { // Win/Loss conditions
+            cout << "Congratulations!!! " << player.getName() << " completed the bundle in time" << endl << "Game Over : You Won" << endl;
+            return 0;
+            }
+
+            if (time == 0) {
+                cout << player.getName() << " stayed out to late" << endl << "Game Over : You Lost" << endl;
+                return 0;
+            }
         }
     }
 
-
-    return 0;
-}
-
-void printTrades(vector<Villager> villagers, int vIndex) {
-    vector<string> trades = villagers[vIndex].getTrades();
-    vector<int> prices = villagers[vIndex].getPrices();
-    for (int i = 0; i < static_cast<int>(trades.size()); i++) {
-        cout << trades[i] << " : " << prices[i] << endl;
+    if (0 != static_cast<int>(bundle.size())) {
+        cout << player.getName() << " didn't complete the bundle in time" << endl << "Game Over : You Lost" << endl;
+        return 0;
     }
+
+    if (7 >= player.getAverageSleep()) {
+        cout << player.getName() << " didn't get enough sleep" << endl << "Game Over : You Lost" << endl;
+        return 0;
+    }
+
+    cout << "Congratulations!!! " << player.getName() << " completed the bundle in time" << endl << "Game Over : You Won" << endl;
+    return 0;
 }

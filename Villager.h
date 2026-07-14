@@ -16,7 +16,7 @@ class Villager : public npc { //inherits npc
     int friendship;
 
     public:
-    Villager(string n, string l, bool u, vector<string> t, vector<int> p);
+    Villager(string n, string l, vector<string> t, vector<int> p);
     void addTrade(string t);
     void changeFriendship(int f);
     vector<string> getTrades();

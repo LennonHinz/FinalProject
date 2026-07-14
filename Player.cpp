@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include "Player.h"
+#include "Villager.h"
 
 using namespace std;
 
@@ -12,10 +13,6 @@ Player::Player(string n) {
     location = "Farm";
     gold = 100;
     averageSleep = 8;
-    for (int i = 0; i < 10; i++) {
-        inventory[i] = "";
-    }
-    sleepDeprived = false;
     jojaInfluence = 0;
 }
 
@@ -30,14 +27,6 @@ void Player::setAverageSleep(double lN, int day) {
 
 void Player::changeGold(int g) {
     gold += g;
-    cout << gold;
-}
-
-string Player::changeInventory(string item, int place) {
-    string replace;
-    replace = inventory[place];
-    inventory[place] = item;
-    return replace;
 }
 
 string Player::getName() {
@@ -54,10 +43,6 @@ double Player::getAverageSleep() {
 
 int Player::getGold() {
     return gold;
-}
-
-bool Player::getSleepDeprived() {
-    return sleepDeprived;
 }
 
 void Player::UnlockMines() {
@@ -77,20 +62,34 @@ bool Player::getDocksUnlock() {
     return docksUnlock;
 }
 
+void Player::printInventory() {
+    if (0 != static_cast<int>(inventory.size())){
+        cout << "Current Inventory:" << endl;
+        for (int i = 0; i < static_cast<int>(inventory.size()); i++) {
+            cout << inventory[i] << endl;
+        }
+        cout << endl;
+    }  
+}
+
 void Player::tradeWithJoja() {
-    int decition;
+    int decision;
     cout << endl << endl << "Trading with joja..." << endl;
-    cout << "1) Unlock entire map : 50 gold" << endl;
-    cout << "2) Skip current bundle item : 50 gold" << endl;
+    cout << "1) Unlock entire map : 50 gold : +1 Joja Influence" << endl;
+    cout << "2) Skip current bundle item : 50 gold : +1 Joja Influence" << endl;
     cout << "3) Stop trading with Joja" << endl;
     do {
         cout << "Enter you decition: ";
-        cin >> decition;
-    } while (decition <= 0 && decition > 3);
+        cin >> decision;
+    } while (decision <= 0 || decision > 3);
 
-    switch (decition)
+    switch (decision)
     {
     case 1:
+    if (gold < 50) {
+        cout << "Not enough gold" << endl;
+        return;
+    }
     UnlockDocks();
     gold -= 50;
     jojaInfluence++;
@@ -101,4 +100,68 @@ void Player::tradeWithJoja() {
     default:
     break;
     }
+}
+
+void Player::villagerTrading(vector<Villager> villagers, int vIndex) {
+    vector<string> trades = villagers[vIndex].getTrades();
+    vector<int> prices = villagers[vIndex].getPrices();
+    int decision;
+
+    cout << endl << endl << "Trading with " << villagers[vIndex].getName() << "..." << endl;
+
+    for (int i = 0; i < static_cast<int>(trades.size()); i++) {
+        cout << (i + 1) << ") " << trades[i] << " : " << prices[i] << endl;
+    }
+
+    cout << (trades.size() + 1) << ") Stop trading" << endl;
+
+    do {
+        cout << "Enter you decition: ";
+        cin >> decision;
+    } while (decision <= 0 || decision > (static_cast<int>(trades.size()) + 1));
+
+    if (decision == (static_cast<int>(trades.size()) + 1)) {
+        return;
+    }
+
+    if (gold < prices[(decision - 1)]) {
+        cout << "Not enough gold" << endl;
+        return;
+    }
+
+    inventory.push_back(trades[(decision - 1)]);
+    changeGold(-prices[(decision - 1)]);
+
+}
+
+vector<string> Player::donateItem(vector<string> bundle) {
+    int decision;
+
+    cout << endl << endl << "Donating items..." << endl;
+
+    for (int i = 0; i < static_cast<int>(bundle.size()); i++) {
+        cout << (i + 1) << ") " << bundle[i] << endl;
+    }
+
+    cout << (bundle.size() + 1) << ") Stop donating" << endl;
+
+    do {
+        cout << "Enter you decition: ";
+        cin >> decision;
+    } while (decision <= 0 || decision > (static_cast<int>(bundle.size()) + 1));
+
+    if (decision == (static_cast<int>(bundle.size()) + 1)) {
+        return bundle;
+    }
+
+    for (int i = 0; i < static_cast<int>(inventory.size()); i++) {
+        if (bundle[decision - 1] == inventory[i]) {
+            inventory.erase(inventory.begin() + i);
+            bundle.erase(bundle.begin() + decision - 1);
+            return bundle;
+        }
+    }
+
+    cout << "Could not find item in inventory" << endl;
+    return bundle;
 }

@@ -2,7 +2,7 @@
                             |
 [Forest]                 [Mines]
    |                        |
-[Farm] -- [Town] -- [Community Center]
+[Farm] -- [Town] -- [Community Center] -- [Marnie's Ranch]
              |
          [JojaMart]
          

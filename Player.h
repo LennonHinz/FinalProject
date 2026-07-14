@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include "Villager.h"
 
 using namespace std;
 
@@ -15,28 +16,27 @@ class Player { // the charactor the player is in control of
     double averageSleep;
     int gold;
     int jojaInfluence;
-    bool sleepDeprived;
     bool minesUnlock = false;
     bool docksUnlock = false;
+    vector<string> inventory;
 
     public:
-    string inventory[10];
     Player(string n);
     void setLocation(string l);
     void setAverageSleep(double lN, int day);
     void changeGold(int g);
-    string changeInventory(string item, int place);
     string getName();
     string getLocation();
     double getAverageSleep();
     int getGold();
-    bool getSleepDeprived();
     void UnlockMines();
     bool getMinesUnlock();
     void UnlockDocks();
     bool getDocksUnlock();
+    void printInventory();
     void tradeWithJoja();
-
+    void villagerTrading(vector<Villager> villagers, int vIndex);
+    vector<string> donateItem(vector<string> bundle);
 
 };
 

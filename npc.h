@@ -12,11 +12,9 @@ class npc {
     private:
     string name;
     string location;
-    bool unlocked;
 
     public:
-    npc(string n, string l, bool u);
-    void unlock();
+    npc(string n, string l);
     string getName();
     string getLocation();
 
