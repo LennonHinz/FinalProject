@@ -20,13 +20,14 @@ int main() {
     Player player(playerName);
 
     //Create Bundle
-    vector<string> bundle = {"Log", "", "", "Catfish", ""};
+    vector<string> bundle = {"Pork", "Parsnip", "Coal", "Log", "Catfish"};
 
     int Day = 1;
+    vector<string> farm;
 
     //Create all the different villagers
     vector<Villager> villagers;
-    Villager Pierre("Pierre", "Town", {"Wheat Seeds", "Parsnip Seeds"}, {5, 10}); //Pierre index 0
+    Villager Pierre("Pierre", "Town", {"Wheat seed", "Parsnip seed"}, {5, 10}); //Pierre index 0
     villagers.push_back(Pierre);
     Villager Willy("Willy", "Docks", {"Cod", "Catfish"}, {5, 15}); //Willy index 1
     villagers.push_back(Willy);
@@ -44,7 +45,8 @@ int main() {
             cout << "            THE FINAL BUNDLE" << endl;
             cout << "==================================================" << endl << endl;
 
-            cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl << endl << endl;
+            cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl;
+            cout << "Joja Influence: " << player.getJojaInfluence() << endl << endl << endl;
 
 
             ifstream inFile("Map.txt");
@@ -72,7 +74,7 @@ int main() {
 
             cout << endl << "Current options: " << endl;
 
-            int decition;
+            int decision;
 
             if (location == "Town") {
                 cout << "1) Trade with Pierre" << endl;
@@ -81,11 +83,11 @@ int main() {
                 cout << "4) Travel to your Farm" << endl;
                 cout << "5) Pass time" << endl;
                 do {
-                    cout << "Enter you decition: ";
-                    cin >> decition;
-                } while (decition <= 0 || decition > 5);
+                    cout << "Enter you decision: ";
+                    cin >> decision;
+                } while (decision <= 0 || decision > 5);
 
-                switch (decition) {
+                switch (decision) {
                     case 1:
                     player.villagerTrading(villagers, 0);
                     break;
@@ -109,11 +111,11 @@ int main() {
                 cout << "2) Travel to the Mines" << endl;
                 cout << "3) Pass time" << endl;
                 do {
-                    cout << "Enter you decition: ";
-                    cin >> decition;
-                } while (decition <= 0 || decition > 3);
+                    cout << "Enter you decision: ";
+                    cin >> decision;
+                } while (decision <= 0 || decision > 3);
 
-                switch (decition) {
+                switch (decision) {
                     case 1:
                     player.villagerTrading(villagers, 1);
                     break;
@@ -128,63 +130,113 @@ int main() {
 
             }else if (location == "Mines") {
                 cout << "1) Trade with Clint" << endl;
-                cout << "2) Travel to Community Center" << endl;
+                cout << "2) Talk to Timmy" << endl;
+                cout << "3) Travel to the Community Center" << endl;
                 if (player.getDocksUnlock()) {
-                    cout << "3) Travel to Docks" << endl;
-                    cout << "4) Pass time" << endl;
+                    cout << "4) Travel to Docks" << endl;
+                    cout << "5) Pass time" << endl;
                     do {
-                        cout << "Enter you decition: ";
-                        cin >> decition;
-                    } while (decition <= 0 || decition > 4);
+                        cout << "Enter you decision: ";
+                        cin >> decision;
+                    } while (decision <= 0 || decision > 4);
 
-                    switch (decition) {
+                    switch (decision) {
                         case 1:
                         player.villagerTrading(villagers, 2);
                         break;
                         case 2:
-                        player.setLocation("Community Center");
+                        int choice;
+                        cout << endl << endl << "I need a piece of wheat" << endl;
+                        cout << "1) Give Timmy a piece of wheat" << endl;
+                        cout << "2) Stop talking to Timmy" << endl;
+
+                        do {
+                        cout << "Enter you decision: ";
+                        cin >> choice;
+                        } while (choice <= 0 || choice > 2);
+
+                        if (choice == 1) {
+                            if (player.findItem("Wheat")) {
+                                player.removeInventory("Wheat");
+                                player.UnlockDocks();
+                                player.changeGold(20);
+                                cout << "Thank you for the Wheat : I have given you 20 gold and unlocked the Docks for you" << endl;
+                            }else{
+                                cout << endl << "You do not have a wheat" << endl;
+                            }
+                        }
                         break;
                         case 3:
+                        player.setLocation("Community Center");
+                        break;
+                        case 4:
                         player.setLocation("Docks");
+                        break;
+                        case 5:
+                        break; // starts next hour
+                        default:
+                        break;
+                    }
+                }else{
+                    cout << "4) Pass time" << endl;
+                    cout << "Docks are currently locked" << endl;
+                    do {
+                        cout << "Enter you decision: ";
+                        cin >> decision;
+                    } while (decision <= 0 || decision > 3);
+
+                    switch (decision) {
+                        case 1:
+                        player.villagerTrading(villagers, 2);
+                        break;
+                        case 2:
+                        int choice;
+                        cout << endl << endl << "I need a piece of wheat" << endl;
+                        cout << "1) Give Timmy a piece of wheat" << endl;
+                        cout << "2) Stop talking to Timmy" << endl;
+
+                        do {
+                        cout << "Enter you decision: ";
+                        cin >> choice;
+                        } while (choice <= 0 || choice > 2);
+
+                        if (choice == 1) {
+                            if (player.findItem("Wheat")) {
+                                player.removeInventory("Wheat");
+                                player.UnlockDocks();
+                                player.changeGold(20);
+                                cout << "Thank you for the Wheat : I have given you 20 gold and unlocked the Docks for you" << endl;
+                            }else{
+                                cout << endl << "You do not have a wheat" << endl;
+                            }
+                        }
+                        break;
+                        case 3:
+                        player.setLocation("Community Center");
                         break;
                         case 4:
                         break; // starts next hour
                         default:
                         break;
                     }
-                }else{
-                    cout << "3) Pass time" << endl;
-                    do {
-                        cout << "Enter you decition: ";
-                        cin >> decition;
-                    } while (decition <= 0 || decition > 3);
-
-                    switch (decition) {
-                        case 1:
-                        //printTrades(villagers, 2);
-                        break;
-                        case 2:
-                        player.setLocation("Community Center");
-                        break;
-                        case 3:
-                        break; // starts next hour
-                        default:
-                        break;
-                    }
                 }
             }else if (location == "Farm") {
+                int bedTime = 4;
+                if (player.getJojaInfluence() >= 1) {
+                    bedTime = 3;
+                }
                 cout << "1) Travel to Town" << endl;
                 cout << "2) Travel to Forest" << endl;
                 cout << "3) Pass time" << endl;
                 cout << "4) Plant crop" << endl;
-                if (time <= 4) {
+                if (time <= bedTime) {
                     cout << "5) Go to sleep" << endl;
                     do {
-                        cout << "Enter you decition: ";
-                        cin >> decition;
-                    } while (decition <= 0 || decition > 5);
+                        cout << "Enter you decision: ";
+                        cin >> decision;
+                    } while (decision <= 0 || decision > 5);
 
-                    switch (decition) {
+                    switch (decision) {
                     case 1:
                     player.setLocation("Town");
                     break;
@@ -194,7 +246,37 @@ int main() {
                     case 3:
                     break; // starts next hour
                     case 4:
-                    break; // in progress
+                    int choice;
+                    cout << endl << endl << "What seeds do you want to plant?" << endl;
+                    cout << "1) Wheat seed" << endl;
+                    cout << "2) Parsnip seed" << endl;
+                    cout << "3) Stop planting" << endl;
+
+                    do {
+                    cout << "Enter you decision: ";
+                    cin >> choice;
+                    } while (choice <= 0 || choice > 3);
+
+                    if (choice == 1) {
+                        if (player.findItem("Wheat seed")) {
+                            player.removeInventory("Wheat seed");
+                            farm.push_back("Wheat seed");
+                            player.UnlockDocks();
+                            cout << "The wheat will be ready tomorrow" << endl;
+                        }else {
+                            cout << endl << "You do not have a wheat seed" << endl;
+                        }
+                    }else if (choice == 2) {
+                        if (player.findItem("Parsnip seed")) {
+                            player.removeInventory("Parsnip seed");
+                            farm.push_back("Parsnip seed");
+                            player.UnlockDocks();
+                            cout << "The parsnip will be ready tomorrow" << endl;
+                        }else {
+                            cout << endl << "You do not have a parsnip seed" << endl;
+                        }
+                    }
+                    break;
                     case 5:
                     player.setAverageSleep(time, Day);
                     time = -1;
@@ -205,11 +287,11 @@ int main() {
 
                 }else{
                     do {
-                        cout << "Enter you decition: ";
-                        cin >> decition;
-                    } while (decition <= 0 || decition > 4);
+                        cout << "Enter you decision: ";
+                        cin >> decision;
+                    } while (decision <= 0 || decision > 4);
 
-                    switch (decition) {
+                    switch (decision) {
                         case 1:
                         player.setLocation("Town");
                         break;
@@ -219,44 +301,108 @@ int main() {
                         case 3:
                         break; // starts next hour
                         case 4:
-                        break; // in progress
+                        int choice;
+                        cout << endl << endl << "What seeds do you want to plant?" << endl;
+                        cout << "1) Wheat seed" << endl;
+                        cout << "2) Parsnip seed" << endl;
+                        cout << "3) Stop planting" << endl;
+
+                        do {
+                        cout << "Enter you decision: ";
+                        cin >> choice;
+                        } while (choice <= 0 || choice > 3);
+
+                        if (choice == 1) {
+                            if (player.findItem("Wheat seed")) {
+                                player.removeInventory("Wheat seed");
+                                farm.push_back("Wheat seed");
+                                player.UnlockDocks();
+                                cout << "The wheat will be ready tomorrow" << endl;
+                            }else {
+                                cout << endl << "You do not have a wheat seed" << endl;
+                            }
+                        }else if (choice == 2) {
+                            if (player.findItem("Parsnip seed")) {
+                                player.removeInventory("Parsnip seed");
+                                farm.push_back("Parsnip seed");
+                                player.UnlockDocks();
+                                cout << "The parsnip will be ready tomorrow" << endl;
+                            }else {
+                                cout << endl << "You do not have a parsnip seed" << endl;
+                            }
+                        }
+                        break;
                         default:
                         break;
                     }
                 }
             }else if (location == "Forest") {
-                cout << "1) Chop wood" << endl;
-                cout << "2) Travel to your Farm" << endl;
-                cout << "3) Pass time" << endl;
+                cout << "1) Talk to Ned" << endl;
+                cout << "2) Chop wood" << endl;
+                cout << "3) Search for treasure (3 hours)" << endl;
+                cout << "4) Travel to your Farm" << endl;
+                cout << "5) Pass time" << endl;
                 do {
-                    cout << "Enter you decition: ";
-                    cin >> decition;
-                } while (decition <= 0 || decition > 3);
+                    cout << "Enter you decision: ";
+                    cin >> decision;
+                } while (decision <= 0 || decision > 4);
 
-                switch (decition) {
+                switch (decision) {
                     case 1:
-                    // Chop wood code
+                    int choice;
+                    cout << endl << endl << "I need a piece of parsnip" << endl;
+                    cout << "1) Give Ned a piece of Parsnip" << endl;
+                    cout << "2) Stop talking to Ned" << endl;
+
+                    do {
+                    cout << "Enter you decision: ";
+                    cin >> choice;
+                    } while (choice <= 0 || choice > 2);
+
+                    if (choice == 1) {
+                        if (player.findItem("Parsnip")) {
+                            player.removeInventory("Parsnip");
+                            player.changeGold(30);
+                            cout << "Thank you for the Parsnip : I have given you 30 gold" << endl;
+                        }else{
+                            cout << endl << "You do not have a Parsnip" << endl;
+                        }
+                    }
                     break;
                     case 2:
-                    player.setLocation("Farm");
+                    if (player.findItem("Axe")){
+                        player.addInventory("Log");
+                    }else{
+                        cout << "You dont have an axe : couldn't chop wood" << endl;
+                    }
                     break;
                     case 3:
+                    if (time <= 3) {
+                        time = 0;
+                    }
+                    time = time - 2;
+                    player.addInventory("Vase");
+                    break;
+                    case 4:
+                    player.setLocation("Farm");
+                    break;
+                    case 5:
                     break; // starts next hour
                     default:
                     break;
                 }
             }else if (location == "JojaMart") {
                 cout << "1) Trade with Joja" << endl;
-                cout << "2) Travel to your Town" << endl;
+                cout << "2) Travel to Town" << endl;
                 cout << "3) Pass time" << endl;
                 do {
-                    cout << "Enter you decition: ";
-                    cin >> decition;
-                } while (decition <= 0 || decition > 3);
+                    cout << "Enter you decision: ";
+                    cin >> decision;
+                } while (decision <= 0 || decision > 3);
 
-                switch (decition) {
+                switch (decision) {
                     case 1:
-                    player.tradeWithJoja();
+                    bundle = player.tradeWithJoja(bundle);
                     break;
                     case 2:
                     player.setLocation("Town");
@@ -274,13 +420,12 @@ int main() {
                     cout << "4) Travel to Mines" << endl;
                     cout << "5) Pass time" << endl;
                     do {
-                        cout << "Enter you decition: ";
-                        cin >> decition;
-                    } while (decition <= 0 || decition > 4);
+                        cout << "Enter you decision: ";
+                        cin >> decision;
+                    } while (decision <= 0 || decision > 5);
 
-                    switch (decition) {
+                    switch (decision) {
                         case 1:
-                        // Donating to bundle functionallity
                         bundle = player.donateItem(bundle);
                         break;
                         case 2:
@@ -298,21 +443,22 @@ int main() {
                         break;
                     }
                 }else{
-                    cout << "3) Pass time" << endl;
+                    cout << "4) Pass time" << endl;
+                    cout << "Mines are currently locked" << endl;
                     do {
-                        cout << "Enter you decition: ";
-                        cin >> decition;
-                    } while (decition <= 0 || decition > 3);
+                        cout << "Enter you decision: ";
+                        cin >> decision;
+                    } while (decision <= 0 || decision > 4);
 
-                    switch (decition) {
+                    switch (decision) {
                         case 1:
-                        // Donating to bundle functionallity
+                        bundle = player.donateItem(bundle);
                         break;
                         case 2:
-                        player.setLocation("Marnie's Ranch");
+                        player.setLocation("Town");
                         break;
                         case 3:
-                        player.setLocation("Town");
+                        player.setLocation("Marnie's Ranch");
                         break;
                         case 4:
                         break; // starts next hour
@@ -322,19 +468,85 @@ int main() {
                 }
             }else if (location == "Marnie's Ranch") {
                 cout << "1) Trade with Marnie" << endl;
-                cout << "2) Travel to your Community Center" << endl;
-                cout << "3) Pass time" << endl;
+                cout << "2) Talk to Bill" << endl;
+                cout << "3) Travel to the Community Center" << endl;
+                cout << "4) Travel to the Blacksmith" << endl;
+                cout << "5) Pass time" << endl;
                 do {
-                    cout << "Enter you decition: ";
-                    cin >> decition;
-                } while (decition <= 0 || decition > 3);
+                    cout << "Enter you decision: ";
+                    cin >> decision;
+                } while (decision <= 0 || decision > 4);
 
-                switch (decition) {
+                switch (decision) {
                     case 1:
                     player.villagerTrading(villagers, 3);
                     break;
                     case 2:
+                    int choice;
+                    cout << endl << endl << "I need a vase for my house" << endl;
+                    cout << "1) Give Bill a vase" << endl;
+                    cout << "2) Stop talking to Bill" << endl;
+
+                    do {
+                    cout << "Enter you decision: ";
+                    cin >> choice;
+                    } while (choice <= 0 || choice > 2);
+
+                    if (choice == 1) {
+                        if (player.findItem("Vase")) {
+                            player.removeInventory("Vase");
+                            player.UnlockMines();
+                            player.changeGold(20);
+                            cout << "Thank you for the vase : I have given you 20 gold and unlocked the Mines for you" << endl;
+                        }else{
+                            cout << endl << "You do not have a vase" << endl;
+                        }
+                    }
+                    break;
+                    case 3:
                     player.setLocation("Community Center");
+                    break;
+                    case 4:
+                    player.setLocation("Blacksmith");
+                    break;
+                    case 5:
+                    break; // starts next hour
+                    default:
+                    break;
+                }
+            }else if (location == "Blacksmith") {
+                cout << "1) Talk to Tom" << endl;
+                cout << "2) Travel to Marnie's Ranch" << endl;
+                cout << "3) Pass time" << endl;
+                do {
+                    cout << "Enter you decision: ";
+                    cin >> decision;
+                } while (decision <= 0 || decision > 3);
+
+                switch (decision) {
+                    case 1:
+                    int choice;
+                    cout << endl << endl << "I need iron to make an axe. If you have one I will give you the axe." << endl;
+                    cout << "1) Give Tom iron" << endl;
+                    cout << "2) Stop talking to Tom" << endl;
+
+                    do {
+                    cout << "Enter you decision: ";
+                    cin >> choice;
+                    } while (choice <= 0 || choice > 2);
+
+                    if (choice == 1) {
+                        if (player.findItem("Iron")) {
+                            player.removeInventory("Iron");
+                            player.addInventory("Axe");
+                            cout << "Thank you for the Iron : I have given you an axe" << endl;
+                        }else{
+                            cout << endl << "You do not have a vase" << endl;
+                        }
+                    }
+                    break;
+                    case 2:
+                    player.setLocation("Marnie's Ranch");
                     break;
                     case 3:
                     break; // starts next hour
@@ -345,27 +557,60 @@ int main() {
             cout << endl << endl;
 
             if (0 == static_cast<int>(bundle.size())) { // Win/Loss conditions
-            cout << "Congratulations!!! " << player.getName() << " completed the bundle in time" << endl << "Game Over : You Won" << endl;
-            return 0;
+                if (8 > player.getAverageSleep()) {
+                    cout << player.getName() << " didn't get enough sleep" << endl << "Game Over : You Lost" << endl;
+                    return 0;
+                }
+                if (player.getJojaInfluence() == 0) {
+                    cout << "Congratulations!!! " << player.getName() << " completed the bundle in time : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Won" << endl;
+                    return 0;
+                }else if (player.getJojaInfluence() == 1) {
+                    cout << "Congratulations!!! " << player.getName() << " completed the bundle in time, however you had some infuence from Joja : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Won" << endl;
+                    return 0;
+                }else if (player.getJojaInfluence() >= 2){
+                    cout << "Congratulations!!! " << player.getName() << " completed the bundle in time, however you had a lot of infuence from Joja : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Won" << endl;
+                    return 0;
+                }
             }
 
             if (time == 0) {
-                cout << player.getName() << " stayed out to late" << endl << "Game Over : You Lost" << endl;
+                cout << player.getName() << " stayed out to late : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Lost" << endl;
                 return 0;
+            } 
+        }
+        for (int i = 0; i < static_cast<int>(farm.size()); i++) { // growing crops
+            cout << farm.size();
+            if (farm[i] == "Wheat seed") {
+                player.addInventory("Wheat");
+                farm.erase(farm.begin() + i);
+                i--;
+            }else if (farm[i] == "Parsnip seed") {
+                player.addInventory("Parsnip");
+                farm.erase(farm.begin() + i);
+                i--;
             }
         }
     }
 
     if (0 != static_cast<int>(bundle.size())) {
-        cout << player.getName() << " didn't complete the bundle in time" << endl << "Game Over : You Lost" << endl;
+        cout << player.getName() << " didn't complete the bundle in time : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Lost" << endl;
         return 0;
     }
 
-    if (7 >= player.getAverageSleep()) {
-        cout << player.getName() << " didn't get enough sleep" << endl << "Game Over : You Lost" << endl;
+    if (8 > player.getAverageSleep()) {
+        cout << player.getName() << " didn't get enough sleep : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Lost" << endl;
         return 0;
     }
 
-    cout << "Congratulations!!! " << player.getName() << " completed the bundle in time" << endl << "Game Over : You Won" << endl;
+    if (player.getJojaInfluence() == 0) {
+        cout << "Congratulations!!! " << player.getName() << " completed the bundle in time : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Won" << endl;
+        return 0;
+    }else if (player.getJojaInfluence() == 1) {
+        cout << "Congratulations!!! " << player.getName() << " completed the bundle in time, however you had some infuence from Joja : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Won" << endl;
+        return 0;
+    }else if (player.getJojaInfluence() >= 2){
+        cout << "Congratulations!!! " << player.getName() << " completed the bundle in time, however you had a lot of infuence from Joja : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Won" << endl;
+        return 0;
+    }
     return 0;
 }

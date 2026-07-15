@@ -29,12 +29,16 @@ class Player { // the charactor the player is in control of
     string getLocation();
     double getAverageSleep();
     int getGold();
+    int getJojaInfluence();
     void UnlockMines();
     bool getMinesUnlock();
     void UnlockDocks();
     bool getDocksUnlock();
+    bool findItem(string item);
+    void addInventory(string i);
+    void removeInventory(string item);
     void printInventory();
-    void tradeWithJoja();
+    vector<string> tradeWithJoja(vector<string> bundle);
     void villagerTrading(vector<Villager> villagers, int vIndex);
     vector<string> donateItem(vector<string> bundle);
 

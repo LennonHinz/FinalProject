@@ -11,7 +11,7 @@ using namespace std;
 Player::Player(string n) {
     name = n;
     location = "Farm";
-    gold = 100;
+    gold = 50;
     averageSleep = 8;
     jojaInfluence = 0;
 }
@@ -22,7 +22,6 @@ void Player::setLocation(string l) {
 
 void Player::setAverageSleep(double lN, int day) {
     averageSleep = ((averageSleep * (day - 1)) + (lN + 6)) / day;
-    cout << averageSleep;
 }
 
 void Player::changeGold(int g) {
@@ -53,13 +52,37 @@ bool Player::getMinesUnlock() {
     return minesUnlock;
 }
 
+int Player::getJojaInfluence() {
+    return jojaInfluence;
+}
+
 void Player::UnlockDocks() {
     docksUnlock = true;
-    minesUnlock = true;
 }
 
 bool Player::getDocksUnlock() {
     return docksUnlock;
+}
+
+bool Player::findItem(string item) {
+    for (int i = 0; i < static_cast<int>(inventory.size()); i++) {
+        if (item == inventory[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Player::addInventory(string i) {
+    inventory.push_back(i);
+}
+
+void Player::removeInventory(string item) {
+    for (int i = 0; i < static_cast<int>(inventory.size()); i++) {
+        if (inventory[i] == item) {
+            inventory.erase(inventory.begin() + i);
+        }
+    }
 }
 
 void Player::printInventory() {
@@ -72,11 +95,11 @@ void Player::printInventory() {
     }  
 }
 
-void Player::tradeWithJoja() {
+vector<string> Player::tradeWithJoja(vector<string> bundle) {
     int decision;
     cout << endl << endl << "Trading with joja..." << endl;
-    cout << "1) Unlock entire map : 50 gold : +1 Joja Influence" << endl;
-    cout << "2) Skip current bundle item : 50 gold : +1 Joja Influence" << endl;
+    cout << "1) Unlock entire map : 15 gold : +1 Joja Influence" << endl;
+    cout << "2) Skip current bundle item : 15 gold : +1 Joja Influence" << endl;
     cout << "3) Stop trading with Joja" << endl;
     do {
         cout << "Enter you decition: ";
@@ -86,20 +109,26 @@ void Player::tradeWithJoja() {
     switch (decision)
     {
     case 1:
-    if (gold < 50) {
+    if (gold < 15) {
         cout << "Not enough gold" << endl;
-        return;
+        return bundle;
     }
     UnlockDocks();
+    UnlockMines();
     gold -= 50;
     jojaInfluence++;
     break;
     case 2:
-    // add once bundle is added
+    if (gold < 15) {
+        cout << "Not enough gold" << endl;
+        return bundle;
+    }
+    bundle.erase(bundle.begin());
     break;
     default:
     break;
     }
+    return bundle;
 }
 
 void Player::villagerTrading(vector<Villager> villagers, int vIndex) {
@@ -110,7 +139,7 @@ void Player::villagerTrading(vector<Villager> villagers, int vIndex) {
     cout << endl << endl << "Trading with " << villagers[vIndex].getName() << "..." << endl;
 
     for (int i = 0; i < static_cast<int>(trades.size()); i++) {
-        cout << (i + 1) << ") " << trades[i] << " : " << prices[i] << endl;
+        cout << (i + 1) << ") " << trades[i] << " : " << prices[i] << " gold" << endl;
     }
 
     cout << (trades.size() + 1) << ") Stop trading" << endl;

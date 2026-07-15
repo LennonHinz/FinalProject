@@ -3,6 +3,6 @@
 [Forest]                 [Mines]
    |                        |
 [Farm] -- [Town] -- [Community Center] -- [Marnie's Ranch]
-             |
-         [JojaMart]
+            |                                    |
+        [JojaMart]                         [Blacksmith]
          

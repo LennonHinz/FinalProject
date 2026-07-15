@@ -6,7 +6,7 @@ I am going to stick to the Stardew Valley theme.
 
 ## Classes
 
-I will make classes to help store and track the player, items, characters, locations, bundle, and inventory.
+I will make classes to help store and track the player, npcs, and villagers.
 
 ## Limited resource
 
@@ -14,19 +14,19 @@ Along with time I will also use amount of sleep and money as a limited resource 
 
 ## Handling time
 
-I will handle time by tracking days until the end of the season and the player must finish the bundle before this time.
+I will handle time by tracking days until the end of the season and the player must finish the bundle before this time. I will also track time in each day.
 
 ## Extra Credit
 
-For extra credit I am planning on implementing a weather system that effects gameplay and the smarter bundle planner.
+For extra credit I am planning on implementing a weighted route planning and the smarter bundle planner.
 
 ### EC Descriptions
 
-I will make a weather system and with it give the player a forecast so that they are able to plan ahead for the positives and negatives that different weather will cause. I will also add the planner that will check what the player still has left to complete and based on that information give recommendations of what they should do next.
+For the wieghted routes I will have roughts that are locked until the player completes a task. I will also add the planner that will check what the player still has left to complete and based on that information give recommendations of what they should do next.
 
 ## Tradeoff system
 
-You will be able to trade with Joja throughout the game for things like items required for the bundle or unlocking new locations. However this will come at a cost like villages giving you less favorable deals or a cap on the number of hours you can rest each night.
+You will be able to trade with Joja throughout the game for things like items required for the bundle or unlocking new locations. However this will come at a cost with a cap on the number of hours you can rest each night.
 
 ## Mapping style
 
