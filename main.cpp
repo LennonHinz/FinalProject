@@ -40,15 +40,16 @@ int main() {
 
     // Print rules
     cout << endl << "Rules:" << endl;
-    cout << "1) Collect all of the items required to complete the bundle and donate them to the community before the end of the week to win" << endl;
+    cout << "1) Collect all of the items required to complete the bundle and donate them to the Community before the end of the week to win" << endl;
     cout << "2) Trading with villagers allows you to buy things from them for gold and talking to them allows you to give them items for a reward" << endl;
-    cout << "3) Trading with Joja gives you a shortcut but down grades the difficulty of your run" << endl;
-    cout << "4) If you need help figuring out what to do next you can access the bundle planner at your Farm" << endl;
-    cout << "5) By the time you complete the final bundle you must have maintained an average of 8 hours of sleep per night" << endl;
-    cout << "6) You can go to bed starting at 8 each night unless you have traded with Joja then you can't go to bed until 9" << endl;
-    cout << "7) You are not allowed to stay out past midnight and you wake up every morning at 6" << endl;
-    cout << "8) If you plant a seed the crop will be ready for you the next day in your inventory" << endl;
-    cout << "9) Have fun and good luck" << endl;
+    cout << "3) Completing tasks can also unlock paths to new locations that can be found on the map" << endl;
+    cout << "4) Trading with Joja gives you a shortcut but downgrades the difficulty of your run" << endl;
+    cout << "5) If you need help figuring out what to do next, you can access the bundle planner at your Farm" << endl;
+    cout << "6) By the time you complete the final bundle you must have maintained an average of 8 hours of sleep per night" << endl;
+    cout << "7) You can go to bed starting at 8 each night unless you have traded with Joja then you can't go to bed until 9" << endl;
+    cout << "8) You are not allowed to stay out past midnight and you wake up every morning at 6" << endl;
+    cout << "9) If you plant a seed the crop will be ready for you the next day in your inventory" << endl;
+    cout << "10) Have fun and good luck" << endl << endl;
 
     for (int end = 7; Day <= end; Day++) { // main gameplay loop
         for (int time = 18; time >= 0; time--){
@@ -62,7 +63,7 @@ int main() {
             cout << "Day: " << Day << " / 7        Time left in day: " << time << "       Average sleep: " << player.getAverageSleep() << "        Money: " << player.getGold() << " gold" << endl;
             cout << "Joja Influence: " << player.getJojaInfluence() << endl << endl << endl;
 
-
+            cout << "Map:" << endl << endl;
             ifstream inFile("Map.txt");
             string line;
 
@@ -279,7 +280,6 @@ int main() {
                         if (player.findItem("Wheat seed")) {
                             player.removeInventory("Wheat seed");
                             farm.push_back("Wheat seed");
-                            player.UnlockDocks();
                             cout << "The wheat will be ready tomorrow" << endl;
                         }else {
                             cout << endl << "You do not have a wheat seed" << endl;
@@ -288,7 +288,6 @@ int main() {
                         if (player.findItem("Parsnip seed")) {
                             player.removeInventory("Parsnip seed");
                             farm.push_back("Parsnip seed");
-                            player.UnlockDocks();
                             cout << "The parsnip will be ready tomorrow" << endl;
                         }else {
                             cout << endl << "You do not have a parsnip seed" << endl;
@@ -337,7 +336,6 @@ int main() {
                             if (player.findItem("Wheat seed")) {
                                 player.removeInventory("Wheat seed");
                                 farm.push_back("Wheat seed");
-                                player.UnlockDocks();
                                 cout << "The wheat will be ready tomorrow" << endl;
                             }else {
                                 cout << endl << "You do not have a wheat seed" << endl;
@@ -346,7 +344,6 @@ int main() {
                             if (player.findItem("Parsnip seed")) {
                                 player.removeInventory("Parsnip seed");
                                 farm.push_back("Parsnip seed");
-                                player.UnlockDocks();
                                 cout << "The parsnip will be ready tomorrow" << endl;
                             }else {
                                 cout << endl << "You do not have a parsnip seed" << endl;
