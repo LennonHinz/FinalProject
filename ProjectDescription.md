@@ -22,7 +22,7 @@ For extra credit I am planning on implementing a weighted route planning and the
 
 ### EC Descriptions
 
-For the wieghted routes I will have roughts that are locked until the player completes a task. I will also add the planner that will check what the player still has left to complete and based on that information give recommendations of what they should do next.
+For the weighted routes I will have routes that are locked until the player completes a task. I will also add the planner that will check what the player still has left to complete and based on that information give recommendations of what they should do next.
 
 ## Tradeoff system
 

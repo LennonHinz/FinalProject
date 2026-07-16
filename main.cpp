@@ -9,6 +9,8 @@
 
 using namespace std;
 
+void bundlePlanner(string nextItem);
+
 int main() {
 
     //starting up the game
@@ -35,6 +37,18 @@ int main() {
     villagers.push_back(Clint);
     Villager Marnie("Marnie", "Marnie's Ranch", {"Chicken", "Beef", "Pork"}, {5, 10, 15}); //Marnie index 3
     villagers.push_back(Marnie);
+
+    // Print rules
+    cout << endl << "Rules:" << endl;
+    cout << "1) Collect all of the items required to complete the bundle and donate them to the community before the end of the week to win" << endl;
+    cout << "2) Trading with villagers allows you to buy things from them for gold and talking to them allows you to give them items for a reward" << endl;
+    cout << "3) Trading with Joja gives you a shortcut but down grades the difficulty of your run" << endl;
+    cout << "4) If you need help figuring out what to do next you can access the bundle planner at your Farm" << endl;
+    cout << "5) By the time you complete the final bundle you must have maintained an average of 8 hours of sleep per night" << endl;
+    cout << "6) You can go to bed starting at 8 each night unless you have traded with Joja then you can't go to bed until 9" << endl;
+    cout << "7) You are not allowed to stay out past midnight and you wake up every morning at 6" << endl;
+    cout << "8) If you plant a seed the crop will be ready for you the next day in your inventory" << endl;
+    cout << "9) Have fun and good luck" << endl;
 
     for (int end = 7; Day <= end; Day++) { // main gameplay loop
         for (int time = 18; time >= 0; time--){
@@ -138,7 +152,7 @@ int main() {
                     do {
                         cout << "Enter you decision: ";
                         cin >> decision;
-                    } while (decision <= 0 || decision > 4);
+                    } while (decision <= 0 || decision > 5);
 
                     switch (decision) {
                         case 1:
@@ -183,7 +197,7 @@ int main() {
                     do {
                         cout << "Enter you decision: ";
                         cin >> decision;
-                    } while (decision <= 0 || decision > 3);
+                    } while (decision <= 0 || decision > 4);
 
                     switch (decision) {
                         case 1:
@@ -227,14 +241,15 @@ int main() {
                 }
                 cout << "1) Travel to Town" << endl;
                 cout << "2) Travel to Forest" << endl;
-                cout << "3) Pass time" << endl;
-                cout << "4) Plant crop" << endl;
+                cout << "3) View bundle planner" << endl;
+                cout << "4) Pass time" << endl;
+                cout << "5) Plant crop" << endl;
                 if (time <= bedTime) {
-                    cout << "5) Go to sleep" << endl;
+                    cout << "6) Go to sleep" << endl;
                     do {
                         cout << "Enter you decision: ";
                         cin >> decision;
-                    } while (decision <= 0 || decision > 5);
+                    } while (decision <= 0 || decision > 6);
 
                     switch (decision) {
                     case 1:
@@ -244,8 +259,11 @@ int main() {
                     player.setLocation("Forest");
                     break;
                     case 3:
-                    break; // starts next hour
+                    bundlePlanner(bundle[0]);
+                    break;
                     case 4:
+                    break; // starts next hour
+                    case 5:
                     int choice;
                     cout << endl << endl << "What seeds do you want to plant?" << endl;
                     cout << "1) Wheat seed" << endl;
@@ -277,7 +295,7 @@ int main() {
                         }
                     }
                     break;
-                    case 5:
+                    case 6:
                     player.setAverageSleep(time, Day);
                     time = -1;
                     break;
@@ -289,7 +307,7 @@ int main() {
                     do {
                         cout << "Enter you decision: ";
                         cin >> decision;
-                    } while (decision <= 0 || decision > 4);
+                    } while (decision <= 0 || decision > 5);
 
                     switch (decision) {
                         case 1:
@@ -299,8 +317,11 @@ int main() {
                         player.setLocation("Forest");
                         break;
                         case 3:
-                        break; // starts next hour
+                        bundlePlanner(bundle[0]);
+                        break;
                         case 4:
+                        break; // starts next hour
+                        case 5:
                         int choice;
                         cout << endl << endl << "What seeds do you want to plant?" << endl;
                         cout << "1) Wheat seed" << endl;
@@ -345,7 +366,7 @@ int main() {
                 do {
                     cout << "Enter you decision: ";
                     cin >> decision;
-                } while (decision <= 0 || decision > 4);
+                } while (decision <= 0 || decision > 5);
 
                 switch (decision) {
                     case 1:
@@ -475,7 +496,7 @@ int main() {
                 do {
                     cout << "Enter you decision: ";
                     cin >> decision;
-                } while (decision <= 0 || decision > 4);
+                } while (decision <= 0 || decision > 5);
 
                 switch (decision) {
                     case 1:
@@ -593,6 +614,10 @@ int main() {
     }
 
     if (0 != static_cast<int>(bundle.size())) {
+        if (8 > player.getAverageSleep()) {
+            cout << player.getName() << " didn't complete the bundle in time and didn't get enough sleep : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Lost" << endl;
+            return 0;
+        }
         cout << player.getName() << " didn't complete the bundle in time : Joja Influence: " << player.getJojaInfluence() << endl << "Game Over : You Lost" << endl;
         return 0;
     }
@@ -613,4 +638,29 @@ int main() {
         return 0;
     }
     return 0;
+}
+
+void bundlePlanner(string nextItem) {
+    cout << endl << "Steps:" << endl;
+    if (nextItem == "Pork") {
+        cout << "Buy pork from Marnie at Marnie's Ranch" << endl;
+    }else if (nextItem == "Parsnip") {
+        cout << "Buy a parsnip seed from Pierre in town" << endl;
+        cout << "Go back to your farm to plant the seed" << endl;
+        cout << "Wait till the next day and the parsnip will be ready" << endl;
+    }else if (nextItem == "Coal") {
+        cout << "Find the vase in the forest" << endl;
+        cout << "Give the vase to Bill at Marnie's Ranch to unlock the Mines" << endl;
+        cout << "Buy coal from Clint at the Mines" << endl;
+    }else if (nextItem == "Log") {
+        cout << "Buy iron from Clint at the Mines" << endl;
+        cout << "Give the iron to Tom at the Blacksmith to recive an axe in return" << endl;
+        cout << "Go to the forest to chop a log" << endl;
+    }else if (nextItem == "Catfish") {
+        cout << "Buy a wheat seed from Pierre in town" << endl;
+        cout << "Go back to your farm to plant the seed" << endl;
+        cout << "Wait till the next day and for the wheat to be ready" << endl;
+        cout << "Give the wheat to Timmy at the Mines to unlock the docks" << endl;
+        cout << "Buy a catfish from Willy at the Docks" << endl;
+    }
 }
